@@ -98,6 +98,7 @@ void addRecord(void) {
 				break;
 			}
 			numMusic++;
+			printf("¸èÇúÌí¼Ó³É¹¦£¡\n");
 			printf("\n");
 		}
 	}

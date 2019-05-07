@@ -11,7 +11,9 @@ int findRecord(char* target, int targetType, int from) {
 	for (i = from; i < numMusic; i++) {
 		if
 			((targetType == 0 && strcmp(target, records[i].id) == 0) || 
-			(targetType == 1 && strcmp(target, records[i].name) == 0))
+			(targetType == 1 && strcmp(target, records[i].name) == 0) ||
+			(targetType == 2 && strcmp(target, records[i].singer) == 0) ||
+			(targetType == 3 && strcmp(target, records[i].language) == 0))
 			return i;
 	}
 	return -1;
@@ -22,35 +24,91 @@ int findRecord(char* target, int targetType, int from) {
 	可以按照ID、歌名来查询
 */
 void queryInfo(void) {
-	char str[5];
+	char str[5] ;
+	char s[5];
 	char target[20];
-	int type;
-	int count;
-	int i;
+	int type = 0;
+	int count = 0;
+	int i ,j = 0;
+	int cn1, cn2 = 0;
+
 	if (numMusic == 0) {
 		printf("没有可供查询的记录");
 		return;
 	}
 	while (1) {
 		printf("请输入查询的方式：(直接输入回车则结束查询)\n");
-		printf("1.按ID\n");
+		printf("1.按序号\n");
 		printf("2.按歌名\n");
+		printf("3.按歌手\n");
+		printf("4.按语种\n");
 		printf("请输入：");
+
 		gets(str);
-		if (strlen(str) == 0)
+		cn1 = atoi(str);
+		if (cn1 < 1 || cn1>4) {
+			printf("\n 输入错误,回到首页\n");
 			break;
-		if (str[0] == '1') {
-			printf("请输入欲查询的歌曲的ID：");
-			gets(target);
-			type = 0;
 		}
-		else {
+		if (cn1 == 0)
+			break;
+		switch (cn1) {
+		case 1:
+			printf("请输入欲查询的歌曲的序号：");
+			type = 0;
+			gets(target);
+			i = findRecord(target, type, 0);
+			break;
+		case 2:
 			printf("请输入欲查询的歌曲的歌名：");
 			gets(target);
 			type = 1;
+			i = findRecord(target, type, 0);
+			break;
+		case 3:
+			printf("请输入欲查询的歌曲的歌手：");
+			gets(target);
+			type = 2;
+			i = findRecord(target, type, 0);
+			break;
+		case 4:
+			for (j = 0; j < MUN_LANGUAGE; j++)
+			{
+				printf("%d.%s\t", j + 1, language[j]);
+			}
+			printf("\n");
+			printf("请输入欲查询的歌曲的语种的序号：");
+			gets(s);
+      			cn2 = atoi(s);
+			if (cn2 < 1 || cn2 > 5) {
+				printf("\n 输入错误，默认设为空\n");
+				cn2 = 0;
+			}
+			switch (cn2)
+			{
+			case 1:
+				strcpy(target, "华语");
+				break;
+			case 2:
+				strcpy(target, "粤语");
+				break;
+			case 3:
+				strcpy(target, "英语");
+				break;
+			case 4:
+				strcpy(target, "日语");
+				break;
+			case 5:
+				strcpy(target, "韩语");
+				break;
+			default:        
+				strcpy(target, " ");
+				break;
+			}
+			type = 3;
+			i = findRecord(target, type, 0);
+			break;
 		}
-
-		i = findRecord(target, type, 0);
 
 		//打印查询到的歌曲的信息
 		showTable();
@@ -58,7 +116,7 @@ void queryInfo(void) {
 		count = 0;
 		while (i != -1) {
 			count++;
-			printf("%s\t%s\t%s\t%s\n", records[i].id, records[i].name, records[i].singer, records[i].language);
+			printf("%s\t%s\t\t%s\t\t%s\n", records[i].id, records[i].name, records[i].singer, records[i].language);
 			i = findRecord(target, type, i + 1);
 		}
 
@@ -86,14 +144,14 @@ void removeRecord(void) {
 	while (1) {
 		printf("请输入如何找到欲删除的记录的方式：");
 		printf("(直接输入回车则结束移除操作)\n");
-		printf("1.按ID\n");
+		printf("1.按序号\n");
 		printf("2.按歌名\n");
 		printf("请输入：");
 		gets(str);
 		if (strlen(str) == 0) break;
 
 		if (str[0] == '1') {
-			printf("请输入该歌曲的ID：");
+			printf("请输入该歌曲的序号：");
 			gets(target);
 			type = 0;
 		}
