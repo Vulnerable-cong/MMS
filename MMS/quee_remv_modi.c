@@ -21,7 +21,7 @@ int findRecord(char* target, int targetType, int from) {
 
 /*
 	查询指定歌曲的信息
-	可以按照ID、歌名来查询
+	可以按照序号、歌名、歌手、语种来查询
 */
 void queryInfo(void) {
 	char str[5] ;
@@ -150,6 +150,11 @@ void removeRecord(void) {
 		gets(str);
 		if (strlen(str) == 0) break;
 
+		if (str < 1 || str>2) {
+			printf("\n 输入错误,回到首页\n");
+			break;
+		}
+
 		if (str[0] == '1') {
 			printf("请输入该歌曲的序号：");
 			gets(target);
@@ -219,6 +224,10 @@ void modifyRecord(void) {
 		printf("请输入：");
 		gets(str);
 		if (strlen(str) == 0) break;
+
+		if (str < 1 || str>2) {
+			printf("\n 输入错误,回到首页\n");
+			break;
 
 		if (str[0] == '1') {
 			printf("请输入该歌曲的序号：");
