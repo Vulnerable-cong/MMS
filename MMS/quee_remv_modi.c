@@ -135,6 +135,7 @@ void removeRecord(void) {
 	char target[20];
 	int type;
 	int i, j;
+	int cn;
 
 	if (numMusic == 0) {
 		printf("没有可供删除的记录");
@@ -148,14 +149,15 @@ void removeRecord(void) {
 		printf("2.按歌名\n");
 		printf("请输入：");
 		gets(str);
+		cn = atoi(str);
 		if (strlen(str) == 0) break;
 
-		if (str < 1 || str>2) {
+		if (cn < 1 || cn > 2) {
 			printf("\n 输入错误,回到首页\n");
 			break;
 		}
 
-		if (str[0] == '1') {
+		if (cn == 1) {
 			printf("请输入该歌曲的序号：");
 			gets(target);
 			type = 0;
@@ -207,9 +209,9 @@ void modifyRecord(void) {
 	char str[5];
 	char target[20];
 	int type;
-	int i,j;
-	int cn = 0;
-	
+	int i, j;
+	int cn1, cn2 = 0;
+
 	if (numMusic == 0) {
 		printf("没有可供修改的记录");
 		return;
@@ -223,13 +225,15 @@ void modifyRecord(void) {
 		printf("2.按歌名\n");
 		printf("请输入：");
 		gets(str);
+		cn1 = atoi(str);
 		if (strlen(str) == 0) break;
 
-		if (str < 1 || str>2) {
+		if (cn1 < 1 || cn1>2) {
 			printf("\n 输入错误,回到首页\n");
 			break;
+		}
 
-		if (str[0] == '1') {
+		if (cn1 == 1) {
 			printf("请输入该歌曲的序号：");
 			gets(target);
 			type = 0;
@@ -242,7 +246,7 @@ void modifyRecord(void) {
 
 		i = findRecord(target, type, 0);
 		if (i == -1) printf("没有符合条件的学生！\n");
-		
+
 		while (i != -1) {
 			showTable();
 			printf("%s\t%s\t\t%s\t\t%s\n", records[i].id, records[i].name, records[i].singer, records[i].language);
@@ -262,8 +266,8 @@ void modifyRecord(void) {
 				printf("\n");
 				printf("请输入语种的序号：");
 				gets(str);
-				cn = atoi(str);
-				switch (cn)
+				cn2 = atoi(str);
+				switch (cn2)
 				{
 				case 1:
 					strcpy(records[i].language, "华语");
@@ -293,3 +297,4 @@ void modifyRecord(void) {
 	}
 	savedTag = 1;
 }
+
